@@ -529,5 +529,101 @@ queue(const queue&q) //拷贝构造
 
 push();pop();back();front(); empty(); size()
 
+#### set multiset
+
+所有元素都会在插入的时候排序，关联式容器底层二叉树实现
+
+set不允许重复元素， multiset 允许重复
+
+构造：
+
+set<T> st; set(const set &st); 默认构造拷贝构造
+
+赋值 =
+
+插入 insert ，支持迭代器遍历； erase（iter）erase(iter_begin, iter_end); erase(elem)
+
+size() empty() swap() 不支持resize(因为填充默认值)
+
+find() 若成功返回元素迭代器，否则返回set.end()  count()计数，对于set只能为1，0，
+
+pair<set\<int>::iterator, bool> = s.insert(10); 插入返回位置迭代器和插入成功与否set，multiset只返回位置
+
+自定义排序规则
+
+```C++
+class MyCompare {
+public:
+	bool operator()(int v1, int v2)const {
+		return v1 > v2;
+	}
+};
+
+class MyCompare {
+public:
+	bool operator()(const MyClass& v1, const MyClass& v2)const {
+		return v1.age > v2.age;
+	}
+};
+
+
+int main()
+{
+	set<int, MyCompare> s2;
+	s2.insert(1);
+	s2.insert(2);
+	s2.insert(4);
+
+
+	system("pause");
+	return 0;
+}
+
+```
+
+#### pair
+
+成对出现的数据
+
+pair<T1,T2> p(a,2); // 默认构造 pair<T1,T2> p = make_pair(1,2);, p.first p.second
+
+#### map multimap
+
+所有元素都是pair, key， value,  二叉树实现，根据key自动排序
+
+默认构造 拷贝构造 =赋值
+
+m.insert(pair(pair<int, int>(4,20)));  clear erase clear erase（按照key删除）
+
+size empty swap
+
+插入
+
+m.insert(pair(pair<int, int>(4,20)));  m.insert(make_pair(11,22));  m[4] = 40;  m[] 每运行一次如果没有key会自动创建默认值
+
+find()  count 统计key的元素个数
+
 #### list
+
+链式存储 一个存当前数据一个存下一个节点指针，双向链表
+
+动态存储分配，不会造成浪费溢出，但是空间遍历耗费大，插入删除修改指针即可，不需要移动元素，插入删除list迭代器不会失效， vector不成立
+
+默认构造 拷贝构造， list(n, ele) list(beg, end)
+
+赋值 assign(n, ele); assign(beg, end) = swap
+
+size empty resize() resize(n, ele);  
+
+插入删除
+
+pop_back pushback push front, insert(iter, ele)  insert(iter, n, ele)  insert(iter, beg, end)
+
+remove(ele) ,删除值一样的所有数据
+
+front() back() 返回第一个和最后一个元素
+
+reverse（） sort()  li.reverse();  li.sort(mycompare函数bool)
+
+### OBject
 

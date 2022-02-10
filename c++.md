@@ -625,5 +625,126 @@ front() back() 返回第一个和最后一个元素
 
 reverse（） sort()  li.reverse();  li.sort(mycompare函数bool)
 
-### OBject
+### Object
+
+C++ 面向对象的三大特性：封装（将属性和行为作为一个整体， 加以权限控制）继承多态
+
+protected private（儿子不能访问）类外不可以访问
+
+class默认访问权限是private struct默认public
+
+构造函数：创建对象的时候给对象的成员属性赋值，编译器自动调用， 语法`类名(){}`
+
+没有返回值不写void，函数名称与类名相同，可以有参数所有可以发生重载，调用时候自动调用，一次
+
+析构函数：对象销毁前系统自动调用`~类名(){}` 不可重载 销毁时候自动调用，一次
+
+编译器提供的构造函数和解析构函数是空实现
+
+有参构造、无参数构造； 普通构造、拷贝构造
+
+三种调用方法：括号 Person p（不能加括号，加括号编译器 识别为函数声明）; Person p(10); Person p(p1)  
+
+显式法 Person p = Person(10)（y）、 Person p = Person(p2)；  Person(10)(匿名对象，马上被销毁)
+
+Person（p1） -- 编译器识别为 Person p1 ,可能重定义，不要用通过拷贝构造创建匿名对象
+
+拷贝构造函数调用时机：使用一个已经创建完的对象初始化新对象，值传递，以值方式返回局部对象
+
+编译器自动 默认添加默认构造默认西构函数默认拷贝构造
+
+如果用户定义有参构造，则不再提供默认无参，有拷贝
+
+如果写了拷贝，就不会提供其他构造
+
+浅拷贝：简单的赋值拷贝（内存重复释放）  深拷贝：在堆区重新申请空间，进行拷贝 mH=new int(*p.mH)
+
+初始化列表 构造函数（）属性1（值），属性2（值）{}
+
+```C++
+Person(int a, int b, int c):m_A(a),m_B(b),m_C(c){
+
+}
+Person():m_A(1),m_B(2),m_C(4){
+
+}
+```
+
+类对象作为类成员：构造顺序和析构函数相反
+
+静态成员变量：所有对象共享同一份数据；在编译阶段分配内存；类内声明，类外初始化 全局区
+
+可以通过对象访问，也可以通过类名访问  静态也有访问权限，private类外访问不到
+
+```C++
+class Per {
+public:
+	static int m_A;
+};
+int Per::m_A = 10;
+int main()
+{
+	Per p;
+	p.m_A = 100
+    int a = Per::m_A;
+	system("pause");
+	return 0;
+}
+```
+
+静态成员函数：所有对象共享一个函数，静态成员函数只能访问静态成员变量
+
+通过对象访问，通过类名访问，也是有访问权限的
+
+C++对象模型：成员变量和成员函数分开存储，，C++会给空对象分配一个字节空姐，为了区分空对象内存位置
+
+只有非静态成员变量属于对象上 有一个int占用4个字节，非静态成员函数也不再类的对象上
+
+this指针（指针常量，指向不可改）（解决名称冲突，区分用哪个对象的属性，解决参数与属性重名）：指向被调用的成员函数所属的对象，隐含在每一个非静态成员函数的内部
+
+*this 对象 this->age 访问属性
+
+this返回本体
+
+```C++
+class Per {
+public:
+	static int m_A;
+	Per& add(Per& p) {
+		return *this;
+	}
+};
+```
+
+防止空指针调用成员函数
+
+if（this== nullptr）{return;}
+
+const修饰成员函数
+
+常函数：成员函数后加const（相当于const this），常函数不能修改成员属性，成员属性声明加关键字mutable,在常函数\常对象就可以修改了
+
+常对象：对象前加const，常对象只能调用常函数
+
+友元：friend 有些私有属性也想让类外函数方位
+
+全局函数做友元；类做友元；成员函数做友元
+
+```C++
+class Per {
+	//全局函数做友元
+	friend void vistied(const Per& p);
+	//类友元
+	friend class Mycompare;
+	//成员函数做友元
+	friend bool MyCompare::isValid();
+public:
+	static int m_A;
+	Per& add(Per& p) {
+		return *this;
+	}
+private:
+	string building;
+};
+```
 
